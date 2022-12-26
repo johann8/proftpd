@@ -1,0 +1,44 @@
+version: "3"
+networks:
+  proftpdNET:
+    #external: true
+    ipam:
+      driver: default
+      config:
+        - subnet: ${SUBNET}.0/24
+
+services:
+  proftpd:
+    image: johann8/proftpd:${VERSION_PROFTPD:-latest}
+    container_name: proftpd
+    restart: unless-stopped
+    environment:
+      PASV_ADDRESS: ${PROFTPD_IP}
+      TZ: ${TZ:-UTC}
+      ALLOW_OVERWRITE:         ${ALLOW_OVERWRITE}
+      ANONYMOUS_DISABLE:       ${ANONYMOUS_DISABLE}
+      ANON_UPLOAD_ENABLE:      ${ANON_UPLOAD_ENABLE}
+      FTPUSER_PASSWORD_SECRET: ${FTPUSER_PASSWORD_SECRET}
+      FTPUSER_NAME:            ${FTPUSER_NAME}
+      FTPUSER_UID:             ${FTPUSER_UID}
+      LOCAL_UMASK:             ${LOCAL_UMASK}
+      MAX_CLIENTS:             ${MAX_CLIENTS}
+      MAX_INSTANCES:           ${MAX_INSTANCES}
+      TIMES_GMT:               ${TIMES_GMT}
+      WRITE_ENABLE:            ${WRITE_ENABLE}
+    volumes:
+      #- ${DOCKERDIR}/data/ftpdata/ftpuser:/home/ftpuser:rw
+      - ${DOCKERDIR}/data/config/entrypoint.sh:/usr/local/bin/entrypoint.sh:ro
+      - ${DOCKERDIR}/data/certs:/etc/proftpd/certs:ro
+    ports:
+      - 0.0.0.0:${PORT_PROFTPD:-21}:21
+      - 0.0.0.0:${PASV_MIN_PORT}-${PASV_MAX_PORT}:${PASV_MIN_PORT}-${PASV_MAX_PORT}
+    secrets:
+      - ${FTPUSER_PASSWORD_SECRET}
+#    networks:
+#      - proftpdNET
+
+secrets:
+  ftp-user-password:
+    file: ${DOCKERDIR}/data/config/ftp-user-password
+
