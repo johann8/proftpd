@@ -1,6 +1,6 @@
 # ProFTPD
 
-## Docker images
+## Docker image
 
 Image is based on [Alpine 3.17](https://hub.docker.com/repository/docker/johann8/proftpd/general).
 
