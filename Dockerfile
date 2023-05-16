@@ -1,4 +1,4 @@
-FROM alpine:3.17
+FROM alpine:3.18
     
 ARG BUILD_DATE
 
@@ -9,13 +9,15 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
 
 # PKG URL: https://pkgs.alpinelinux.org/packages?page=7&branch=edge&name=proft%2A
 # set variables 
-ARG PROFTPD_VERSION=1.3.7f-r1
+ARG PROFTPD_VERSION=1.3.8-r3
 ENV ALLOW_OVERWRITE=on \
     ANONYMOUS_DISABLE=off \
     ANON_UPLOAD_ENABLE=DenyAll \
     FTPUSER_PASSWORD_SECRET=ftp-user-password \
-    FTPUSER_NAME=ftpuser \
-    FTPUSER_UID=1001 \
+    FTPUSER_NAME=${FTPUSER_NAME:-ftpuser} \
+    FTPUSER_UID=${FTPUSER_UID:-1001} \
+    FTPGROUP_GID=${FTPGROUP_GID:-5001} \
+    FTPGROUP_NAME=${FTPGROUP_NAME:-ftpusers} \
     LOCAL_UMASK=022 \
     MAX_CLIENTS=10 \
     MAX_INSTANCES=30 \
@@ -25,7 +27,15 @@ ENV ALLOW_OVERWRITE=on \
     SERVER_NAME=ProFTPD \
     TIMES_GMT=off \
     TZ=UTC \
-    WRITE_ENABLE=AllowAll
+    WRITE_ENABLE=AllowAll \
+    # set true|false
+    LDAP_MODULE=false \
+    LDAP_SERVER= \
+    LDAP_BIND_DN= \
+    LDAP_BIND_DN_PASSWORD= \
+    LDAP_USERS= \
+    LDAP_GROUPS=
+
 
 #COPY /rootfs/etc/proftpd/proftpd.conf /etc/proftpd/proftpd.conf
 COPY rootfs/ /
@@ -34,6 +44,7 @@ RUN chmod 644 /etc/proftpd/proftpd.conf \
        --update libcrypto1.1 \
        proftpd=$PROFTPD_VERSION \
        proftpd-mod_tls \
+       proftpd-mod_ldap \
        tzdata \
     && rm -rf /var/cache/apk/* 
 
