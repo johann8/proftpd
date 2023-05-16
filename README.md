@@ -1,5 +1,3 @@
-# ProFTPD
-
 <h1 align="center">ProFTPD</h1>
 
 ## Docker image 🐋
