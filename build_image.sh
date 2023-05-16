@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # set variables
-_VERSION=0.0.5.1
+_VERSION=0.0.6
 
 # create build
 docker build -t johann8/proftpd:${_VERSION} .
@@ -32,7 +32,7 @@ if [ ${_PUSH=} = 0 ]; then
    #docker images -a
    docker rmi johann8/proftpd:${_VERSION}
    #docker images -a
-   docker rmi alpine:3.17
+   #docker rmi alpine:3.17
    docker images -a
 fi
 
