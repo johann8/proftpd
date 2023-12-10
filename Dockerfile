@@ -1,4 +1,4 @@
-FROM alpine:3.18
+FROM alpine:3.19
     
 ARG BUILD_DATE
 
@@ -9,7 +9,7 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
 
 # PKG URL: https://pkgs.alpinelinux.org/packages?page=7&branch=edge&name=proft%2A
 # set variables 
-ARG PROFTPD_VERSION=1.3.8a-r0
+ARG PROFTPD_VERSION=1.3.8a-r1
 ENV ALLOW_OVERWRITE=on \
     ANONYMOUS_DISABLE=off \
     ANON_UPLOAD_ENABLE=DenyAll \
@@ -40,8 +40,9 @@ ENV ALLOW_OVERWRITE=on \
 #COPY /rootfs/etc/proftpd/proftpd.conf /etc/proftpd/proftpd.conf
 COPY rootfs/ /
 RUN chmod 644 /etc/proftpd/proftpd.conf \
-    && apk --no-cache  add \
-       --update libcrypto1.1 \
+    && apk --no-cache  add  --update \
+       #libcrypto1.1 \
+       libcrypto3 \
        proftpd=$PROFTPD_VERSION \
        proftpd-mod_tls \
        proftpd-mod_ldap \
