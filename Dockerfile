@@ -9,7 +9,7 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
 
 # PKG URL: https://pkgs.alpinelinux.org/packages?page=7&branch=edge&name=proft%2A
 # set variables 
-ARG PROFTPD_VERSION=1.3.8b-r0
+ARG PROFTPD_VERSION=1.3.8b-r1
 ENV ALLOW_OVERWRITE=on \
     ANONYMOUS_DISABLE=off \
     ANON_UPLOAD_ENABLE=DenyAll \
