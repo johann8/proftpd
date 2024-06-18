@@ -1,4 +1,4 @@
-FROM alpine:3.19
+FROM alpine:3.20
     
 ARG BUILD_DATE
 
@@ -9,7 +9,7 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
 
 # PKG URL: https://pkgs.alpinelinux.org/packages?page=7&branch=edge&name=proft%2A
 # set variables 
-ARG PROFTPD_VERSION=1.3.8b-r1
+ARG PROFTPD_VERSION=1.3.8b-r2
 ENV ALLOW_OVERWRITE=on \
     ANONYMOUS_DISABLE=off \
     ANON_UPLOAD_ENABLE=DenyAll \
