@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # set variables
-_VERSION=0.1.2
+_VERSION=0.2.0
 
 # create build
 docker build -t johann8/proftpd:${_VERSION} .
